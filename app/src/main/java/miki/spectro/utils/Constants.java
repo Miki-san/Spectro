@@ -14,4 +14,5 @@ public class Constants {
     public static final String BLUETOOTH_ADMIN  = Manifest.permission.BLUETOOTH_ADMIN;
     public static final String ACCESS_FINE      = Manifest.permission.ACCESS_FINE_LOCATION;
     public static final int GRANTED             = PackageManager.PERMISSION_GRANTED;
+    public static final String RESTART          = "{RESTART}";
 }
