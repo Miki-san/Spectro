@@ -6,13 +6,11 @@ public class BluetoothLE {
 
     private String name;
     private String macAddress;
-    private int rssi;
     private BluetoothDevice device;
 
-    public BluetoothLE(String name, String macAddress, int rssi, BluetoothDevice device) {
+    public BluetoothLE(String name, String macAddress, BluetoothDevice device) {
         this.name       = name;
         this.macAddress = macAddress;
-        this.rssi       = rssi;
         this.device     = device;
     }
 
@@ -35,14 +33,6 @@ public class BluetoothLE {
 
     public void setMacAddress(String macAddress) {
         this.macAddress = macAddress;
-    }
-
-    public int getRssi() {
-        return rssi;
-    }
-
-    public void setRssi(int rssi) {
-        this.rssi = rssi;
     }
 
     public BluetoothDevice getDevice() {

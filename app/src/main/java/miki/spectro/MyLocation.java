@@ -12,11 +12,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MyLocation {
-    Timer timer1;
-    LocationManager lm;
-    LocationResult locationResult;
-    boolean gps_enabled = false;
-    boolean network_enabled = false;
+    public Timer timer1;
+    public LocationManager lm;
+    public LocationResult locationResult;
+    public boolean gps_enabled = false;
+    public boolean network_enabled = false;
 
 
     @SuppressLint("MissingPermission")

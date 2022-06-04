@@ -1,6 +1,5 @@
 package miki.spectro;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,11 +17,10 @@ public class SetupMeasurementActivity extends AppCompatActivity {
     private EditText time_text;
     private Button send_config_button;
     private String[] gain = {"default", "1x", "3.7x", "16x", "64x"};
-    public String[] mode;
+    private String[] mode;
     private String request;
     private int selected_mode, selected_gain, selected_time;
     private String bleName;
-
 
     public void createDropDownList(Spinner spinner, String[] data) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, data);
@@ -90,6 +88,5 @@ public class SetupMeasurementActivity extends AppCompatActivity {
                 Toast.makeText(SetupMeasurementActivity.this, getResources().getString(R.string.set_digits), Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }

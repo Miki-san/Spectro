@@ -10,44 +10,45 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import miki.spectro.interfaces.BleCallback;
 import miki.spectro.models.BluetoothLE;
 
-public class BluetoothLEHelper{
-
+public class BluetoothLEHelper {
     public Activity act;
-
-    public final ArrayList<BluetoothLE> aDevices     = new ArrayList<>();
-
-    public BluetoothGatt    mBluetoothGatt;
+    public final ArrayList<BluetoothLE> aDevices = new ArrayList<>();
+    public BluetoothGatt mBluetoothGatt;
     public BluetoothAdapter mBluetoothAdapter;
+    public BluetoothLeScanner bluetoothLeScanner;
     public BluetoothGattCharacteristic mCharacteristic;
     public BleCallback bleCallback;
-
     public static final int STATE_DISCONNECTED = 0;
-    public static final int STATE_CONNECTED    = 1;
-    public int              mConnectionState   = STATE_DISCONNECTED;
-
-    public static long SCAN_PERIOD             = 2500;
-    public static boolean mScanning            = false;
-    public static String FILTER_SERVICE        = "";
+    public static final int STATE_CONNECTED = 1;
+    public int mConnectionState = STATE_DISCONNECTED;
+    public static long SCAN_PERIOD = 2500;
+    public static boolean mScanning = false;
+    public static String FILTER_SERVICE = "";
     public int packetSize;
     public byte[][] packets;
     public int packetIteration;
 
     @SuppressLint("MissingPermission")
-    public BluetoothLEHelper(Activity _act){
-        if(Functions.isBleSupported(_act)) {
+    public BluetoothLEHelper(Activity _act) {
+        if (Functions.isBleSupported(_act)) {
             act = _act;
             BluetoothManager bluetoothManager = (BluetoothManager) act.getSystemService(Context.BLUETOOTH_SERVICE);
             if (bluetoothManager != null) {
                 mBluetoothAdapter = bluetoothManager.getAdapter();
+                bluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
             }
             mBluetoothAdapter.enable();
         }
@@ -56,35 +57,28 @@ public class BluetoothLEHelper{
     @SuppressLint("MissingPermission")
     public void scanLeDevice(boolean enable) {
         Handler mHandler = new Handler();
-
         if (enable) {
-            mScanning = true;
-
             mHandler.postDelayed(() -> {
                 mScanning = false;
-                mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                bluetoothLeScanner.stopScan(mLeScanCallback);
             }, SCAN_PERIOD);
 
-            if(!FILTER_SERVICE.equals("")) {
-                UUID[] filter  = new UUID[1];
-                filter [0]     = UUID.fromString(FILTER_SERVICE);
-                mBluetoothAdapter.startLeScan(filter, mLeScanCallback);
-            }else{
-                mBluetoothAdapter.startLeScan(mLeScanCallback);
-            }
-
+            mScanning = true;
+            bluetoothLeScanner.startScan(mLeScanCallback);
         } else {
             mScanning = false;
-            mBluetoothAdapter.stopLeScan(mLeScanCallback);
+            bluetoothLeScanner.stopScan(mLeScanCallback);
         }
     }
 
-    private final BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+    private final ScanCallback mLeScanCallback = new ScanCallback() {
         @SuppressLint("MissingPermission")
         @Override
-        public void onLeScan(final BluetoothDevice device, final int rssi, byte[] scanRecord) {
+        public void onScanResult(int callbackType, ScanResult result) {
+            super.onScanResult(callbackType, result);
+            BluetoothDevice device = result.getDevice();
             act.runOnUiThread(() -> {
-                if(aDevices.size() > 0) {
+                if (aDevices.size() > 0) {
 
                     boolean isNewItem = true;
 
@@ -94,156 +88,158 @@ public class BluetoothLEHelper{
                         }
                     }
 
-                    if(isNewItem) {
-                        aDevices.add(new BluetoothLE(device.getName(), device.getAddress(), rssi, device));
+                    if (isNewItem) {
+                        aDevices.add(new BluetoothLE(device.getName(), device.getAddress(), device));
                     }
 
-                }else{
-                    aDevices.add(new BluetoothLE(device.getName(), device.getAddress(), rssi, device));
+                } else {
+                    aDevices.add(new BluetoothLE(device.getName(), device.getAddress(), device));
                 }
             });
         }
+
+        @Override
+        public void onBatchScanResults(List<ScanResult> results) {
+            super.onBatchScanResults(results);
+        }
+
+        @Override
+        public void onScanFailed(int errorCode) {
+            super.onScanFailed(errorCode);
+        }
     };
 
-    public ArrayList<BluetoothLE> getListDevices(){
+    public ArrayList<BluetoothLE> getListDevices() {
         return aDevices;
     }
 
-    public void connect(BluetoothDevice device, BleCallback bleCallback){
+    @SuppressLint("MissingPermission")
+    public void connect(BluetoothDevice device, BleCallback bleCallback) {
         if (mBluetoothGatt == null && !isConnected()) {
             this.bleCallback = bleCallback;
             mBluetoothGatt = device.connectGatt(act, false, mGattCallback);
         }
     }
 
-    public void disconnect(){
+    @SuppressLint("MissingPermission")
+    public void disconnect() {
         if (mBluetoothGatt != null && isConnected()) {
             mBluetoothGatt.close();
             mBluetoothGatt = null;
         }
     }
 
-    public boolean isReadyForScan(){
-
+    public boolean isReadyForScan() {
         return Permissions.checkPermissionStatus(act, Manifest.permission.BLUETOOTH)
                 && Permissions.checkPermissionStatus(act, Manifest.permission.BLUETOOTH_ADMIN)
-                && Permissions.checkPermissionStatus(act, Manifest.permission.ACCESS_COARSE_LOCATION) && Functions.getStatusGps(act);
+                && Permissions.checkPermissionStatus(act, Manifest.permission.ACCESS_COARSE_LOCATION)
+                && Functions.getStatusGps(act);
     }
 
-    public void write(byte[] data){
+    @SuppressLint("MissingPermission")
+    public void write(byte[] data) {
         mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));
         int chunksize = 20;
-        packetSize = (int) Math.ceil( data.length / (double)chunksize);
+        packetSize = (int) Math.ceil(data.length / (double) chunksize);
         mCharacteristic.setValue(Integer.toString(packetSize).getBytes());
         mBluetoothGatt.writeCharacteristic(mCharacteristic);
         mBluetoothGatt.executeReliableWrite();
-
         packets = new byte[packetSize][chunksize];
         packetIteration = 0;
         int start = 0;
-        for(int i = 0; i < packets.length; i++) {
-            int end = start+chunksize;
-            if(end>data.length){end = data.length;}
+        for (int i = 0; i < packets.length; i++) {
+            int end = start + chunksize;
+            if (end > data.length) {
+                end = data.length;
+            }
             packets[i] = Arrays.copyOfRange(data, start, end);
             start += chunksize;
         }
         Log.i("TAG", "BluetoothLEHelper: " + new String(data));
     }
 
-    public void write(String aData){
-        //mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));
-        //mCharacteristic.setValue(aData);
-        //mBluetoothGatt.writeCharacteristic(mCharacteristic);
-        //
-        //Log.i("TAG", aData);
+    public void write(String aData) {
+
     }
 
-    public void read(){
+    @SuppressLint("MissingPermission")
+    public void read() {
         mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));
         mBluetoothGatt.readCharacteristic(mCharacteristic);
     }
 
-    private final BluetoothGattCallback mGattCallback;
-    {
-        mGattCallback = new BluetoothGattCallback() {
-            @Override
-            public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    //act.runOnUiThread(() -> Toast.makeText(act, "Connected to GATT server.", Toast.LENGTH_SHORT).show());
-                    Log.i("TAG", "BluetoothLEHelper: Attempting to start service discovery: " + mBluetoothGatt.discoverServices());
-                    mConnectionState = STATE_CONNECTED;
+    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+        @SuppressLint("MissingPermission")
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                Log.i("TAG", "BluetoothLEHelper: Attempting to start service discovery: " + mBluetoothGatt.discoverServices());
+                mConnectionState = STATE_CONNECTED;
 
-                }else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    //act.runOnUiThread(() ->Toast.makeText(act, "Disconnected from GATT server.", Toast.LENGTH_SHORT).show());
-                    mConnectionState = STATE_DISCONNECTED;
-                }
-                bleCallback.onBleConnectionStateChange(gatt, status, newState);
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                mConnectionState = STATE_DISCONNECTED;
             }
+            bleCallback.onBleConnectionStateChange(gatt, status, newState);
+        }
 
-            @Override
-            public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                if (status != BluetoothGatt.GATT_SUCCESS) {
-                    Log.e("TAG","BluetoothLEHelper: onServicesDiscovered received: " + status);
-                }
-                bleCallback.onBleServiceDiscovered(gatt, status);
-
+        @Override
+        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+            if (status != BluetoothGatt.GATT_SUCCESS) {
+                Log.e("TAG", "BluetoothLEHelper: onServicesDiscovered received: " + status);
             }
+            bleCallback.onBleServiceDiscovered(gatt, status);
+        }
 
-            @Override
-            public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                //act.runOnUiThread(() ->Toast.makeText(act, "onCharacteristicWrite Status : " + status, Toast.LENGTH_SHORT).show());
-                if(packetIteration <packetSize){
-                    mCharacteristic.setValue(packets[packetIteration]);
-                    mBluetoothGatt.writeCharacteristic(mCharacteristic);
-                    packetIteration++;
-                }else{
-                    mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));
-                    mBluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
-                }
-
-                bleCallback.onBleWrite(gatt, characteristic, status);
+        @SuppressLint("MissingPermission")
+        @Override
+        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (packetIteration < packetSize) {
+                mCharacteristic.setValue(packets[packetIteration]);
+                mBluetoothGatt.writeCharacteristic(mCharacteristic);
+                packetIteration++;
+            } else {
+                mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));
+                mBluetoothGatt.setCharacteristicNotification(mCharacteristic, true);
             }
+            bleCallback.onBleWrite(gatt, characteristic, status);
+        }
 
-            @Override
-            public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                    Log.i("TAG", "BluetoothLEHelper: " + characteristic.getStringValue(0));
-                }
-                bleCallback.onBleRead(gatt, characteristic, status);
+        @Override
+        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                Log.i("TAG", "BluetoothLEHelper: " + characteristic.getStringValue(0));
             }
+            bleCallback.onBleRead(gatt, characteristic, status);
+        }
 
-            @Override
-            public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                //act.runOnUiThread(() ->Toast.makeText(act, characteristic.getStringValue(0), Toast.LENGTH_SHORT).show());
-                //Log.i("TAG","onCharacteristicChanged Value: " + characteristic.getStringValue(0));
-                bleCallback.onBleCharacteristicChange(gatt, characteristic);
-            }
+        @Override
+        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            bleCallback.onBleCharacteristicChange(gatt, characteristic);
+        }
 
-        };
-    }
+    };
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         return mConnectionState == STATE_CONNECTED;
     }
 
-    public boolean isScanning(){
+    public boolean isScanning() {
         return mScanning;
     }
 
-    public void setScanPeriod(int scanPeriod){
+    public void setScanPeriod(int scanPeriod) {
         SCAN_PERIOD = scanPeriod;
     }
 
-    public long getScanPeriod(){
+    public long getScanPeriod() {
         return SCAN_PERIOD;
     }
 
-    public void setFilterService(String filterService){
+    public void setFilterService(String filterService) {
         FILTER_SERVICE = filterService;
     }
 
-    public BluetoothGatt getGatt(){
+    public BluetoothGatt getGatt() {
         return mBluetoothGatt;
     }
-
 }

@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 
 public abstract class BasicList extends BaseAdapter {
-
     private final ArrayList<?> items;
     private final int R_layout_IdView;
     private final Activity act;

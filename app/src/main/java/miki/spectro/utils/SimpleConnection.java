@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.util.Log;
 import java.util.Objects;
 import miki.spectro.interfaces.BleCallback;
-import miki.spectro.models.BluetoothLE;
 
 public class SimpleConnection {
     public BluetoothLEHelper ble;
@@ -30,13 +29,11 @@ public class SimpleConnection {
     }
 
     public void connectDevice(){
-        BluetoothLE connectionDevice;
         if(ble.getListDevices().size() > 0){
             for (int i=0; i < ble.getListDevices().size(); i++) {
                 if(Objects.equals(ble.getListDevices().get(i).getName(), this.deviceName)){
                     Log.i("TAG", "SimpleConnection: Connection...");
-                    connectionDevice = new BluetoothLE(ble.getListDevices().get(i).getName(), ble.getListDevices().get(i).getMacAddress(), ble.getListDevices().get(i).getRssi(), ble.getListDevices().get(i).getDevice());
-                    ble.connect(connectionDevice.getDevice(), bleCallback);
+                    ble.connect(ble.getListDevices().get(i).getDevice(), bleCallback);
                 }
             }
         }

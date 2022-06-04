@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.jjoe64.graphview.GraphView;
 
 public class MeasuringActivity extends AppCompatActivity {
-    public GraphView graphView;
+    private GraphView graphView;
 
 
     @Override
