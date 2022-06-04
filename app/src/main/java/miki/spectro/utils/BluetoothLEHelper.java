@@ -129,13 +129,6 @@ public class BluetoothLEHelper {
         }
     }
 
-    public boolean isReadyForScan() {
-        return Permissions.checkPermissionStatus(act, Manifest.permission.BLUETOOTH)
-                && Permissions.checkPermissionStatus(act, Manifest.permission.BLUETOOTH_ADMIN)
-                && Permissions.checkPermissionStatus(act, Manifest.permission.ACCESS_COARSE_LOCATION)
-                && Functions.getStatusGps(act);
-    }
-
     @SuppressLint("MissingPermission")
     public void write(byte[] data) {
         mCharacteristic = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE)).getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC));

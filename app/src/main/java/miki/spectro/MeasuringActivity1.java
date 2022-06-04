@@ -56,21 +56,23 @@ public class MeasuringActivity1 extends AppCompatActivity {
                 currentData = characteristic.getStringValue(0);
                 data += currentData;
                 if(data.endsWith(";")){
-                    currentDate = new Date();
-                    dateText = dateFormat.format(currentDate);
-                    timeText = timeFormat.format(currentDate);
-                    data_for_file += dateText + " " + timeText + ": ";
                     data = data.substring(0, data.length()-1);
                     readyData.addAll(Arrays.asList(data.split("/")));
                     if(readyData.size() > 10){
+                        myLocation.getLocation(MeasuringActivity1.this, locationResult);
+                        currentDate = new Date();
+                        dateText = dateFormat.format(currentDate);
+                        timeText = timeFormat.format(currentDate);
+                        data_for_file += dateText + " " + timeText + ": ";
+
                         for (int i = 0; i < textView.size(); i++) {
                             textView.get(i).setText(String.format("%s%s", names[i], readyData.get(i)));
                             data_for_file += names[i] + readyData.get(i) + "; ";
-                            //Log.i("TAG", "MeasuringActivity1: " + i + " " + names[i] + readyData.get(i));
                         }
-                        myLocation.getLocation(MeasuringActivity1.this, locationResult);
                         data_for_file += "Latitude: " + latitude + "; Longitude: " + longitude + ";";
-                        Log.i("TAG", "MeasuringActivity1: " + data_for_file);
+                        if(!data_for_file.contains("R: ;")){
+                            Log.i("TAG", "MeasuringActivity1: " + data_for_file);
+                        }
                         data_for_file = "";
                         data = "";
                         readyData = new ArrayList<>();

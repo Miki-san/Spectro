@@ -20,6 +20,7 @@ import miki.spectro.adapters.BasicList;
 import miki.spectro.models.BluetoothLE;
 import miki.spectro.utils.BluetoothLEHelper;
 import miki.spectro.utils.Constants;
+import miki.spectro.utils.Permissions;
 
 
 public class ScanActivity extends AppCompatActivity {
@@ -89,13 +90,13 @@ public class ScanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_layout);
-        if(permissionGranted()) {
+        if(Permissions.permissionGranted(ScanActivity.this)) {
             Log.i("TAG", "GRANTED");
             ble = new BluetoothLEHelper(this);
             listBle  = findViewById(R.id.listBle);
             btnScan  = findViewById(R.id.scanBle);
             btnScan.setOnClickListener(v -> {
-                if(ble.isReadyForScan()){
+                if(Permissions.isReadyForScan(ScanActivity.this)){
                     scanCollars();
                 }else{
                     Toast.makeText(ScanActivity.this, getResources().getString(R.string.acception), Toast.LENGTH_SHORT).show();
@@ -103,27 +104,7 @@ public class ScanActivity extends AppCompatActivity {
             });
         }
         else{
-            requestPermission();
+            Permissions.requestPermission(ScanActivity.this);
         }
-    }
-
-    private boolean permissionGranted(){
-        return ContextCompat.checkSelfPermission(this, Constants.WRITE_EXTERNAL) == Constants.GRANTED
-                && ContextCompat.checkSelfPermission(this, Constants.READ_EXTERNAL) == Constants.GRANTED
-                && ContextCompat.checkSelfPermission(this, Constants.ACCESS_COARSE) == Constants.GRANTED
-                && ContextCompat.checkSelfPermission(this, Constants.BLUETOOTH) == Constants.GRANTED
-                && ContextCompat.checkSelfPermission(this, Constants.BLUETOOTH_ADMIN) == Constants.GRANTED
-                && ContextCompat.checkSelfPermission(this, Constants.ACCESS_FINE) == Constants.GRANTED;
-    }
-
-    private void requestPermission(){
-        ActivityCompat.requestPermissions(this, new String[]{
-                Constants.WRITE_EXTERNAL,
-                Constants.READ_EXTERNAL,
-                Constants.ACCESS_COARSE,
-                Constants.BLUETOOTH,
-                Constants.BLUETOOTH_ADMIN,
-                Constants.ACCESS_FINE
-        }, 1);
     }
 }

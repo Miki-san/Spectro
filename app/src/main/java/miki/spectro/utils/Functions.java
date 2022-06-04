@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 
 public class Functions {
-
     public static boolean isBleSupported(Activity act){
         return act.getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
     }
@@ -18,5 +17,4 @@ public class Functions {
         }
         return false;
     }
-
 }
