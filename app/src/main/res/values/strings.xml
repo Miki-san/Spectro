@@ -56,4 +56,5 @@
     <string name="message" translatable="false" />
     <string name="ok" translatable="false" />
     <string name="stop_measuring">Сохранить измерения</string>
+    <string name="no_files_found">NO FILES FOUND</string>
 </resources>

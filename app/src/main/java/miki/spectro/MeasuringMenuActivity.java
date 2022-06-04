@@ -2,8 +2,8 @@ package miki.spectro;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MeasuringMenuActivity extends AppCompatActivity {
     private Button simple_measurement_button, autoset_button;

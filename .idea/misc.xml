@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2695" />
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.2695" />
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/drawable/ic_baseline_insert_drive_file_24.xml" value="0.2695" />
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2695" />
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/activity_file_list.xml" value="0.42552083333333335" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/activity_main.xml" value="0.5052083333333334" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/autoset_layout.xml" value="0.3061594202898551" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/dialog_standard.xml" value="0.5052083333333334" />
@@ -10,12 +15,52 @@
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/measuring_layout.xml" value="0.24470232088799193" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/measuring_layout1.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/measuring_menu_layout.xml" value="0.5052083333333334" />
+        <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/recycler_item.xml" value="0.42552083333333335" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/setup_layout.xml" value="0.5052083333333334" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/simple_row_list.xml" value="0.5052083333333334" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/layout/start_layout.xml" value="0.2644927536231884" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/menu/gatt_services.xml" value="0.5052083333333334" />
         <entry key="..\:/Users/Miki_san/Desktop/Spectro2/app/src/main/res/menu/main.xml" value="0.49540347293156284" />
       </map>
+    </option>
+  </component>
+  <component name="NullableNotNullManager">
+    <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
+    <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
+    <option name="myNullables">
+      <value>
+        <list size="12">
+          <item index="0" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
+          <item index="1" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
+          <item index="3" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
+          <item index="4" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+          <item index="6" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
+          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
+          <item index="8" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
+          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="10" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
+          <item index="11" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
+        </list>
+      </value>
+    </option>
+    <option name="myNotNulls">
+      <value>
+        <list size="11">
+          <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
+          <item index="1" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
+          <item index="2" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="3" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
+          <item index="4" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
+          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
+          <item index="6" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
+          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
+          <item index="8" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
+          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
+          <item index="10" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
+        </list>
+      </value>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">

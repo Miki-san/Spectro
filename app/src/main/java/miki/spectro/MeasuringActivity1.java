@@ -1,15 +1,19 @@
 package miki.spectro;
 
+
+import android.Manifest;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,24 +21,27 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import ir.androidexception.filepicker.dialog.DirectoryPickerDialog;
 import miki.spectro.interfaces.BleCallback;
 import miki.spectro.utils.SimpleConnection;
 
 
 public class MeasuringActivity1 extends AppCompatActivity {
-    private String request;
-    private String bleName;
+    private String request, bleName, data = "", currentData = "", data_for_file = "", dateText = "", timeText = "";
     private SimpleConnection simpleConnection;
     public ArrayList<TextView> textView = new ArrayList<>();
     public String[] names = {"R: ", "S: ", "T: ", "U: ", "V: ", "W: ", "Violet: ", "Blue: ", "Green: ", "Yellow: ", "Orange: ", "Red: ", "Temp: "};
-    public String data = "", currentData = "", data_for_file = "", dateText = "", timeText = "";
     public ArrayList<String> readyData = new ArrayList<>();
     public MyLocation myLocation;
     public MyLocation.LocationResult locationResult;
     public DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()), timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-    private final static String FILE_NAME = "out_data.txt";
     private double longitude = 0, latitude = 0;
-    Date currentDate;
+    public Date currentDate;
+    public Button saveButton;
+
+
+
+
 
     private BleCallback bleCallbacks(){
         return new BleCallback(){
@@ -65,7 +72,7 @@ public class MeasuringActivity1 extends AppCompatActivity {
                     data_for_file += dateText + " " + timeText + ": ";
                     data = data.substring(0, data.length()-1);
                     readyData.addAll(Arrays.asList(data.split("/")));
-                    if(readyData.size() > 0){
+                    if(readyData.size() > 10){
                         for (int i = 0; i < textView.size(); i++) {
                             textView.get(i).setText(String.format("%s%s", names[i], readyData.get(i)));
                             data_for_file += names[i] + readyData.get(i) + "; ";
@@ -94,7 +101,7 @@ public class MeasuringActivity1 extends AppCompatActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+    //@RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +121,7 @@ public class MeasuringActivity1 extends AppCompatActivity {
         textView.add(findViewById(R.id.textViewRed));
 
         textView.add(findViewById(R.id.textViewTemp));
+        saveButton = findViewById(R.id.save_button);
 
         request = getIntent().getStringExtra("request");
         bleName = getIntent().getStringExtra("bleName");
@@ -128,11 +136,32 @@ public class MeasuringActivity1 extends AppCompatActivity {
             }
         };
         myLocation = new MyLocation();
+
+        saveButton.setOnClickListener(v -> {
+            if(permissionGranted()) {
+                DirectoryPickerDialog directoryPickerDialog = new DirectoryPickerDialog(this,
+                        () -> Toast.makeText(MeasuringActivity1.this, "Canceled!!", Toast.LENGTH_SHORT).show(),
+                        files -> Toast.makeText(MeasuringActivity1.this, files[0].getPath(), Toast.LENGTH_SHORT).show()
+                );
+                directoryPickerDialog.show();
+            }
+            else{
+                requestPermission();
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         simpleConnection.ble.disconnect();
+    }
+
+    private boolean permissionGranted(){
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+    private void requestPermission(){
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
     }
 }

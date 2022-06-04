@@ -49,6 +49,7 @@ public class MyLocation {
     }
 
     LocationListener locationListenerGps = new LocationListener() {
+        @SuppressLint("MissingPermission")
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);
@@ -61,6 +62,7 @@ public class MyLocation {
     };
 
     LocationListener locationListenerNetwork = new LocationListener() {
+        @SuppressLint("MissingPermission")
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);

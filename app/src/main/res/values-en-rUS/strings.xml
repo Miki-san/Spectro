@@ -53,5 +53,6 @@
     <string name="message" />
     <string name="ok" />
     <string name="stop_measuring">Save measuring</string>
+    <string name="no_files_found">NO FILES FOUND</string>
 
 </resources>

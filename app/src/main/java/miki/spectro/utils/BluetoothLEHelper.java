@@ -1,6 +1,7 @@
 package miki.spectro.utils;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -12,7 +13,6 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
@@ -41,6 +41,7 @@ public class BluetoothLEHelper{
     public byte[][] packets;
     public int packetIteration;
 
+    @SuppressLint("MissingPermission")
     public BluetoothLEHelper(Activity _act){
         if(Functions.isBleSupported(_act)) {
             act = _act;
@@ -52,6 +53,7 @@ public class BluetoothLEHelper{
         }
     }
 
+    @SuppressLint("MissingPermission")
     public void scanLeDevice(boolean enable) {
         Handler mHandler = new Handler();
 
@@ -78,6 +80,7 @@ public class BluetoothLEHelper{
     }
 
     private final BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
+        @SuppressLint("MissingPermission")
         @Override
         public void onLeScan(final BluetoothDevice device, final int rssi, byte[] scanRecord) {
             act.runOnUiThread(() -> {
