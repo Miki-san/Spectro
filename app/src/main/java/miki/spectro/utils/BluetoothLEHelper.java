@@ -14,8 +14,12 @@ import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +38,7 @@ public class BluetoothLEHelper {
     public static final int STATE_DISCONNECTED = 0;
     public static final int STATE_CONNECTED = 1;
     public int mConnectionState = STATE_DISCONNECTED;
-    public static long SCAN_PERIOD = 2500;
+    public static long SCAN_PERIOD = 3000;
     public static boolean mScanning = false;
     public static String FILTER_SERVICE = "";
     public int packetSize;
@@ -112,6 +116,7 @@ public class BluetoothLEHelper {
     public ArrayList<BluetoothLE> getListDevices() {
         return aDevices;
     }
+
 
     @SuppressLint("MissingPermission")
     public void connect(BluetoothDevice device, BleCallback bleCallback) {

@@ -41,4 +41,5 @@
     <string name="stop_measuring">Сохранить измерения</string>
     <string name="storage">Хранилище</string>
     <string name="arrow" translatable="false">&#160;&#160;&#160;>&#160;&#160;&#160;&#160;</string>
+    <string name="reload">Обновить</string>
 </resources>

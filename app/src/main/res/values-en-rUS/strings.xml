@@ -38,5 +38,6 @@
     <string name="stop_measuring">Save measuring</string>
     <string name="storage">Storage</string>
     <string name="arrow" translatable="false">&#160;&#160;&#160;>&#160;&#160;&#160;&#160;</string>
+    <string name="reload">Обновить</string>
 
 </resources>

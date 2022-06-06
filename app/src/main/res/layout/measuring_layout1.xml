@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MeasuringActivity1"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".MeasuringActivity1">
 
     <LinearLayout
         android:id="@+id/data"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="10"
         android:baselineAligned="false"
         android:gravity="center"
-        android:layout_weight="10"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -139,13 +138,31 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/save_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:layout_margin="16dp"
         android:layout_weight="1"
-        android:text="@string/stop_measuring"
-        style="?android:attr/buttonBarButtonStyle"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/save_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/stop_measuring" />
+
+        <Button
+            android:id="@+id/reload_button"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/reload" />
+    </LinearLayout>
 </LinearLayout>
