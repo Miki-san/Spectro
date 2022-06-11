@@ -79,7 +79,7 @@ public class SetupMeasurementActivity extends AppCompatActivity {
                     Toast.makeText(SetupMeasurementActivity.this, getResources().getString(R.string.set_number), Toast.LENGTH_LONG).show();
                 }else{
                     request ="{mode:" + selected_mode + ",gain:" + selected_gain + ",time:" + selected_time + "}/";
-                    Intent intent = new Intent(SetupMeasurementActivity.this, MeasuringActivity1.class);
+                    Intent intent = new Intent(SetupMeasurementActivity.this, MeasuringActivity.class);
                     intent.putExtra("request", request);
                     intent.putExtra("bleName", bleName);
                     startActivity(intent);

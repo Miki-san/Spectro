@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="coming_soon">Ждите в новых обновлениях!</string>
-
     <string name="spectrograph">СпектроГраф</string>
-
     <string name="choose_measuring_mode">Выбор режима измерения</string>
     <string name="simple_measuring_mode">Простой режим измерения</string>
     <string name="autoset_measuring_mode">Режим измерения с автонастройкой</string>
-
     <string name="set_up_measuring_configuration">Настройка конфигурации измерения</string>
     <string name="measurement_mode">Режим измерения:</string>
     <string name="gain">Усиление:</string>
     <string name="integration_time">Время измерения</string>
     <string name="start_measuring">Начать измерение</string>
-
     <string name="scan_ble">Сканировать BLE</string>
-
-
     <string name="scan_in_progress">Сканирование в процессе</string>
     <string name="loading">Загрузка…</string>
     <string name="ups">Упс</string>
     <string name="not_find">Активные устройства не обнаружены</string>
     <string name="acception">Вы должны принять доступ к Bluetooth и GPS или включить Bluetooth и GPS</string>
-
     <string name="set_number">Пожалуйста введите число в диапазоне от 0 до 255!</string>
     <string name="set_digits">Пожалуйста введите число используя только цифры!</string>
     <string name="mode1">Продолжительное считывание VBGY / STUV</string>
     <string name="mode2">Продолжительное считывание GYOR / RTUX</string>
     <string name="mode3">Продолжительное считывание всех каналов</string>
     <string name="mode4">Разовое считывание всех каналов</string>
-
-
-
-
-
     <string name="app_name">Hand-held spectro project</string>
     <string name="title" translatable="false" />
     <string name="message" translatable="false" />
     <string name="ok" translatable="false" />
-    <string name="stop_measuring">Сохранить измерения</string>
+    <string name="stop_measuring">Сохранить замеры</string>
     <string name="storage">Хранилище</string>
     <string name="arrow" translatable="false">&#160;&#160;&#160;>&#160;&#160;&#160;&#160;</string>
-    <string name="reload">Обновить</string>
+    <string name="reload">Обновить подключение</string>
+    <string name="start_measure">Новый эксперимент</string>
 </resources>

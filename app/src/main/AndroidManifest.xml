@@ -31,7 +31,7 @@
         <activity android:name=".MeasuringMenuActivity"/>
         <activity android:name=".SetupMeasurementActivity"/>
         <activity android:name=".AutosetActivity"/>
-        <activity android:name=".MeasuringActivity1"/>
+        <activity android:name=".MeasuringActivity"/>
     </application>
 
 </manifest>
