@@ -1,4 +1,4 @@
-package miki.spectro;
+package miki.spectro.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

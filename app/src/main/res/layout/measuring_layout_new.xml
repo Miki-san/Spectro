@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MeasuringActivity">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"/>
-
+    android:layout_height="match_parent">
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".MeasuringActivity">
 
         <LinearLayout
             android:id="@+id/data"
@@ -183,10 +171,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_weight="1"
-                android:text="@string/start_measure"
-                android:textColor="#D81B60"
                 android:textSize="12sp"
-                tools:ignore="TextContrastCheck,TextContrastCheck" />
+                android:text="@string/start_measure" />
 
             <Button
                 android:id="@+id/save_button"
@@ -194,55 +180,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_weight="1"
-                android:text="@string/stop_measuring"
-                android:textColor="#D81B60"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:text="@string/stop_measuring" />
 
             <Button
                 android:id="@+id/reload_button"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
+                android:textSize="12sp"
                 android:layout_weight="1"
-                android:text="@string/reload"
-                android:textColor="#D81B60"
-                android:textSize="12sp" />
+                android:text="@string/reload" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
 
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            android:text="@string/set_up_measuring_configuration" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="@color/material_on_surface_emphasis_medium"
-            android:text="@string/measurement_mode" />
-
-
-
-
-    </LinearLayout>
+    <!-- Контейнер, содержащий выдвижное меню -->
+    <RelativeLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="none"
+        android:clickable="true"
+        android:background="#FFFFFF"
+        android:focusable="true" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

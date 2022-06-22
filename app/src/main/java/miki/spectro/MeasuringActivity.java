@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.opencsv.CSVWriter;
@@ -28,6 +30,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import miki.spectro.interfaces.BleCallback;
+import miki.spectro.utils.MyLocation;
+import miki.spectro.utils.NavigationLayout;
 import miki.spectro.utils.SimpleConnection;
 
 public class MeasuringActivity extends AppCompatActivity {
@@ -91,8 +95,8 @@ public class MeasuringActivity extends AppCompatActivity {
                             timeText = timeFormat.format(currentDate);
                             csvDate = csvDateFormat.format(currentDate);
                             csvTime = csvTimeFormat.format(currentDate);
-                            textView.get(13).setText(String.format("Номер эксперимента: %d", numberOfMeasure));
-                            textView.get(14).setText(String.format("Номер замера: %d", currentDataId));
+                            textView.get(13).setText(String.format("Номер точки: %d", numberOfMeasure));
+                            textView.get(14).setText(String.format("Готовность: %d%%", currentDataId * 4));
                             data_for_file[0] = String.valueOf(numberOfMeasure);
                             data_for_file[1] = dateText;
                             data_for_file[2] = timeText;
@@ -175,8 +179,8 @@ public class MeasuringActivity extends AppCompatActivity {
         });
 
         saveButton.setOnClickListener(v -> {
-            if (currentDataId != 0) {
-                Toast.makeText(MeasuringActivity.this, "Измерение не завершено!", Toast.LENGTH_LONG).show();
+            if (currentDataId != 1) {
+                Toast.makeText(MeasuringActivity.this, "Измерение не завершено!"+currentDataId, Toast.LENGTH_LONG).show();
             } else {
                 flag = false;
                 simpleConnection.ble.disconnect();
@@ -195,6 +199,8 @@ public class MeasuringActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+
+
 
     public void writeFile() {
         try {
